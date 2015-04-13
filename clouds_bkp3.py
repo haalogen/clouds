@@ -15,8 +15,8 @@ print im2.filename, im2.mode, im2.size
 print 
 
 # width & height of a piece
-width_cropped = 200
-height_cropped = 200
+width_cropped = 100
+height_cropped = 100
 
 # cropped im2 in grayscale; size = (300x300)
 im2_piece = im2.crop( ( im2.size[0] / 2 - width_cropped/2,
@@ -30,7 +30,6 @@ im1_piece = im1.crop( ( im1.size[0] / 2 - width_cropped,
                         im1.size[1] / 3 + height_cropped ) )
 im1_piece.show()
 im2_piece.show()
-grer
 #convert original images to grayscale
 im1_piece = im1_piece.convert("L")
 im2_piece = im2_piece.convert("L")
@@ -83,8 +82,8 @@ pr = np.zeros( im2_piece.size )
 
 start_time = time.time()
 
-for i in range( 0,w-w2+1, 5 ):
-    for j in range( 0,h-h2+1,5 ):
+for i in range( 0,w-w2+1, 1 ):
+    for j in range( 0,h-h2+1,1 ):
 # Piece of im1_piece to compare with im2_piece
         field = data1[i:i+w2,j:j+h2] 
         pr[:,:] = 0
