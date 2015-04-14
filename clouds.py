@@ -1,4 +1,10 @@
-#/bin/python
+#TODO: PyQt4 GUI: 2 labels, QrubberBand, OpenFileDialogs,
+#StartSearchDialog with ability to change parameters,
+#After getting result -- ask whether it's correct or should be seached again
+#Fine search with parameters
+#TODO: alignment (yustirovka) by stars -> affine transform
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 from PIL import Image, ImageDraw
 import numpy as np
@@ -21,8 +27,8 @@ height_cropped = 200
 
 #absolute(on original image im2) cordinates of cropped_piece 
 #(top left corner of square==kvadrat)
-x = im2.size[0] * 4/10
-y = im2.size[1] * 1/4
+x = im2.size[0] * 50/100
+y = im2.size[1] * 33/100
 
 # cropped im2 in grayscale; size = (300x300)
 im2_piece = im2.crop( ( x - width_cropped/2,
@@ -94,8 +100,11 @@ pr = np.zeros( im2_piece.size )
 
 start_time = time.time()
 
-for i in range( 0,w-w2+1, 11 ):
-    for j in range( 0,h-h2+1,11 ):
+inc = (w-w2+1) / 23
+print "inc:", inc
+
+for i in range( 0,w-w2+1, inc ):
+    for j in range( 0,h-h2+1, inc ):
 # Piece of im1_piece to compare with im2_piece
         field = data1[i:i+w2,j:j+h2] 
         pr[:,:] = 0
@@ -117,10 +126,11 @@ for i in range( 0,w-w2+1, 11 ):
             min_i, min_j = i, j
 #        print '\r', i, j, diff
         percentage = 100 * i / (w-w2)
-        sys.stdout.write('\r'+str(i)+" "+str(percentage)+"%")
+        sys.stdout.write('\r row: '+str(i)+" "+str(percentage)+"%")
         sys.stdout.flush()
 print
 stop_time = time.time()
+
 
 print "Result:"
 print min_i, min_j, min_diff
