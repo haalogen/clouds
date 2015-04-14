@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import sys
 
 im1 = Image.open("S701-0013.JPG")
 im2 = Image.open("S702-0013.JPG")
@@ -18,16 +19,21 @@ print
 width_cropped = 200
 height_cropped = 200
 
-# cropped im2 in grayscale; size = (300x300)
-im2_piece = im2.crop( ( im2.size[0] / 2 - width_cropped/2,
-                        im2.size[1] / 3 - height_cropped/2,
-                        im2.size[0] / 2 + width_cropped/2,
-                        im2.size[1] / 3 + height_cropped/2 ) )
+#absolute(on original image im2) cordinates of cropped_piece 
+#(top left corner of square==kvadrat)
+x = im2.size[0] * 4/10
+y = im2.size[1] * 1/4
 
-im1_piece = im1.crop( ( im1.size[0] / 2 - width_cropped*3/2,
-                        im1.size[1] / 3 - height_cropped*3/2,
-                        im1.size[0] / 2 + width_cropped*3/2,
-                        im1.size[1] / 3 + height_cropped*3/2 ) )
+# cropped im2 in grayscale; size = (300x300)
+im2_piece = im2.crop( ( x - width_cropped/2,
+                        y - height_cropped/2,
+                        x + width_cropped/2,
+                        y + height_cropped/2 ) )
+
+im1_piece = im1.crop( ( x - width_cropped*3/2,
+                        y - height_cropped*3/2,
+                        x + width_cropped*3/2,
+                        y + height_cropped*3/2 ) )
 im1_piece.show()
 im2_piece.show()
 
@@ -88,8 +94,8 @@ pr = np.zeros( im2_piece.size )
 
 start_time = time.time()
 
-for i in range( 0,w-w2+1, 5 ):
-    for j in range( 0,h-h2+1,5 ):
+for i in range( 0,w-w2+1, 11 ):
+    for j in range( 0,h-h2+1,11 ):
 # Piece of im1_piece to compare with im2_piece
         field = data1[i:i+w2,j:j+h2] 
         pr[:,:] = 0
@@ -109,24 +115,22 @@ for i in range( 0,w-w2+1, 5 ):
         elif (diff < min_diff):
             min_diff = diff 
             min_i, min_j = i, j
-        
-        print i, j, diff
+#        print '\r', i, j, diff
+        percentage = 100 * i / (w-w2)
+        sys.stdout.write('\r'+str(i)+" "+str(percentage)+"%")
+        sys.stdout.flush()
+print
 stop_time = time.time()
 
 print "Result:"
 print min_i, min_j, min_diff
 print "Time to seek:", (stop_time - start_time)
 
-im1_piece_best = im1.crop( (im1.size[0] / 2 - width_cropped*3/2 + min_i,
-                            im1.size[1] / 3 - height_cropped*3/2 + min_j,
-                            im1.size[0] / 2 - width_cropped*3/2 + min_i+w2,
-                            im1.size[1] / 3 - height_cropped*3/2 + min_j+h2) )
-print im1_piece_best.size
+im1_piece_best = im1.crop( (x - width_cropped*3/2 + min_i,
+                            y - height_cropped*3/2 + min_j,
+                            x - width_cropped*3/2 + min_i+w2,
+                            y - height_cropped*3/2 + min_j+h2) )
+print "im1_piece.size", im1_piece.size
+print "im1_piece_best.size", im1_piece_best.size
 im1_piece_best.show()
 
-
-
-#im1_piece = im1.crop( ( im1.size[0] / 2 - width_cropped*3/2,
-#                        im1.size[1] / 3 - height_cropped*3/2,
-#                        im1.size[0] / 2 + width_cropped*3/2,
-#                        im1.size[1] / 3 + height_cropped*3/2 ) )
