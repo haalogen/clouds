@@ -100,7 +100,7 @@ pr = np.zeros( im2_piece.size )
 
 start_time = time.time()
 
-inc = (w-w2+1) / 23
+inc = (w-w2+1) / 33
 print "inc:", inc
 
 for i in range( 0,w-w2+1, inc ):
