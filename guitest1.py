@@ -1,3 +1,5 @@
+#TODO: learn how to CONNECT widgets correctly
+
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
@@ -88,12 +90,15 @@ class MyWidget(QWidget):
         sideSpinBox2 = QSpinBox()
         sideSpinBox2.setRange(0, 500)
         
+        pbHelp = QPushButton("Help")
+        
         grid1.addWidget(lblLeft1,0,1)
         grid1.addWidget(leftSpinBox1,0,2)
         grid1.addWidget(lblTop1,0,3)
         grid1.addWidget(topSpinBox1,0,4)
         grid1.addWidget(lblSide1,0,5)
         grid1.addWidget(sideSpinBox1,0,6)
+        grid1.addWidget(pbHelp,1,1)
         
         grid2.addWidget(lblLeft2,0,1)
         grid2.addWidget(leftSpinBox2,0,2)
